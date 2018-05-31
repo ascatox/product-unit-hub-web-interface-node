@@ -1,24 +1,18 @@
-/**
- * NOT IMPLEMETED YET!!!
- */
-// import * as winston from 'winston'
+import * as winston from 'winston'
+import * as moment from 'moment'
 
-// class Logger {
-//      tsFormat = () => (new Date()).toLocaleTimeString();
-//      private logger;
-//     constructor() {
-//         this.logger = new (winston.Logger)({
-//             transports: [
-//               // colorize the output to the console
-//               new (winston.transports.Console)({
-//                 timestamp: this.tsFormat,
-//                 colorize: true,
-//               })
-//             ]
-//           });
-//     }
-//     public getLogger() {
-//         return this.logger;
-//     }
-// }
-// export { Logger };
+const tsFormat = () => moment().format('DD-MM-YYYY HH:mm:ss').trim();
+
+const logger = new (winston.Logger)({
+    transports: [
+        // colorize the output to the console
+        new (winston.transports.Console)({
+            timestamp: tsFormat,
+            colorize: true
+        }),
+    ]
+});
+logger.level = process.env.LOGGING_LEVEL || 'debug';
+logger.exitOnError = false;
+
+export { logger };

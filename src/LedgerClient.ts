@@ -3,7 +3,7 @@ import Client = require('fabric-client');
 import FabricCAServices = require('fabric-ca-client');
 import * as path from 'path';
 const jsonFile = require("../resources/config-fabric-network.json");
-//import { Logger } from "./Logger";
+import { logger } from "./Logger";
 
 class LedgerClient {
 
@@ -26,7 +26,7 @@ class LedgerClient {
 
     public async doQuery(fcn: string, args: string[]) {
         if (!this.channel) {
-            console.error('Channel not correctly initialized --> call instantiateChanel');
+            logger.error('Channel not correctly initialized --> call instantiateChanel');
             throw new Error('Channel not correctly initialized --> call instantiateChanel');
         }
         const request = {
@@ -40,17 +40,17 @@ class LedgerClient {
         };
         const query_responses = await this.channel.queryByChaincode(request);
         return new Promise((resolve, reject) => {
-            console.log("Query has completed, checking results");
+            logger.info("Query has completed, checking results");
             if (query_responses && query_responses.length == 1) {
                 if (query_responses[0] instanceof Error) {
-                    console.error("error from query = ", query_responses[0]);
+                    logger.error("error from query = ", query_responses[0]);
                     reject("error from query = " + query_responses[0]);
                 } else {
-                    console.log("Response is ", query_responses[0].toString());
+                    logger.info("Response is ", query_responses[0].toString());
                     resolve(query_responses[0]);
                 }
             } else {
-                console.log("No payloads were returned from query");
+                logger.info("No payloads were returned from query");
                 reject("No payloads were returned from query");
             }
         });
@@ -59,12 +59,12 @@ class LedgerClient {
 
     public async doInvoke(fcn: string, args: string[]) {
         if (!this.channel) {
-            console.error('Channel not correctly initialized --> call instantiateChanel');
+            logger.error('Channel not correctly initialized --> call instantiateChanel');
             throw new Error('Channel not correctly initialized --> call instantiateChanel');
         }
         // get a transaction id object based on the current user assigned to fabric client
         const tx_id = this.ledgerClient.newTransactionID();
-        console.log("Assigning transaction_id: ", tx_id.getTransactionID);
+        logger.info("Assigning transaction_id: ", tx_id.getTransactionID);
 
         var request = {
             //targets: let default to the peer assigned to the client
@@ -90,13 +90,13 @@ class LedgerClient {
             if (proposalResponses && proposalResponses[0].response &&
                 proposalResponses[0].response.status === 200) {
                 isProposalGood = true;
-                console.log('Transaction proposal was good');
+                logger.info('Transaction proposal was good');
             } else {
-                console.error('Transaction proposal was bad: ' + proposalResponses[0].message);
+                logger.error('Transaction proposal was bad: ' + proposalResponses[0].message);
                 reject('Transaction proposal was bad: ' + proposalResponses[0].message);
             }
             if (isProposalGood) {
-                console.log(
+                logger.info(
                     'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s"',
                     proposalResponses[0].response.status, proposalResponses[0].response.message);
 
@@ -129,7 +129,7 @@ class LedgerClient {
                 const peer = this.ledgerClient.newOrderer(ordererConf.url, null);
                 this.channel.addOrderer(peer);
             }
-            this.logger.getLogger().info('instantiation finished');
+            logger.info('instantiation finished');
 
         }
     }

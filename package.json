@@ -21,7 +21,8 @@
     "fabric-client": "1.0.8",
     "fabric-ca-client": "1.0.8",
     "winston": "2.4.2",
-    "body-parser": "1.18.3"
+    "body-parser": "1.18.3",
+    "moment": "2.22.1"
   },
   "devDependencies": {
     "@types/mocha": "2.2.41",
