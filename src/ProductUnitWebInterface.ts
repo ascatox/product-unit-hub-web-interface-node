@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser';
 import { LedgerClient } from './LedgerClient';
 
-class SmartBay {
+class ProductUnitWebInterface {
   public express
   private dataLedgerClient: LedgerClient;
 
@@ -32,14 +32,14 @@ class SmartBay {
     const router = express.Router();
     router.use(bodyParser.urlencoded({ extended: false }));
     router.use(bodyParser.json())
-    router.get('/get', (req, res) => {
+    router.get('/api/get', (req, res) => {
       this.getProcessStep(req.query.id, req.query.component, req.query.subComponent).then(data => {
         res.json(data.toString());
       }, error => {
         res.status(error.status || 500).send(JSON.stringify(error));
       });
     });
-    router.post('/store', (req, res) => {
+    router.post('/api/store', (req, res) => {
       const body: string = req.body;
       this.storeProcessStepRouting(JSON.stringify(body)).then(data => {
         res.json(data);
@@ -50,4 +50,4 @@ class SmartBay {
     this.express.use('/', router)
   }
 }
-export default new SmartBay().express
+export default new ProductUnitWebInterface().express
