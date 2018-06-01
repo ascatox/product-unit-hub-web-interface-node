@@ -16,6 +16,7 @@ class LedgerClient {
     private store_path: string;
     private logger: any;
 
+
     constructor() {
         //this.logger = new Logger();
         this.ledgerClient = new Client();
@@ -157,13 +158,12 @@ class LedgerClient {
                 username: userConfig.name,
                 mspid: organization.mspID,
                 cryptoContent: cryptoContent,
-                skipPersistence: true,
+                skipPersistence: false,
                 isEnrolled: true
             };
-            //let u: User = new User(userConfig.name);
-            //u.setEnrolle
-
-            this.loggedUser = await this.ledgerClient.createUser(userOptions);
+            this.loggedUser = await this.ledgerClient.getUserContext(userConfig.name)
+            if (!this.loggedUser)
+                this.loggedUser = await this.ledgerClient.createUser(userOptions);
             await this.instantiateChannel(organization);
         }
     }
