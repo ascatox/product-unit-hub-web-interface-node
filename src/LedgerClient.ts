@@ -48,7 +48,7 @@ class LedgerClient {
                     reject("error from query = " + query_responses[0]);
                 } else {
                     logger.info("Response is ", query_responses[0].toString());
-                    resolve(query_responses[0]);
+                    resolve(query_responses[0].toString());
                 }
             } else {
                 logger.info("No payloads were returned from query");
@@ -64,9 +64,7 @@ class LedgerClient {
             throw new Error('Channel not correctly initialized --> call instantiateChanel');
         }
         // get a transaction id object based on the current user assigned to fabric client
-        const tx_id = this.ledgerClient.newTransactionID();
-        logger.info("Assigning transaction_id: ", tx_id.getTransactionID);
-
+        const tx_id = await this.ledgerClient.newTransactionID();
         var request = {
             //targets: let default to the peer assigned to the client
             chaincodeId: this.config.chaincode.name,
@@ -78,7 +76,7 @@ class LedgerClient {
             chainId: this.config.channelName,
             txId: tx_id
         };
-        const results = await this.channel.sendTransactionProposal(request);
+        const results = await this.channel.sendTransactionProposal(request, this.config.timeout);
         return await this.manageInvokeProposal(results, tx_id);
 
     }
@@ -111,7 +109,14 @@ class LedgerClient {
                 // if the transaction did not get committed within the timeout period,
                 // report a TIMEOUT status
                 var transaction_id_string = tx_id.getTransactionID(); //Get the transaction ID string to be used by the event processing
-                resolve(this.channel.sendTransaction(request));
+                this.channel.sendTransaction(request).then(data => {
+                    if (data.status === 'SUCCESS')
+                        resolve(proposalResponses[0].response.payload.toString());
+                    else
+                        reject(data.status);
+                }, error => {
+                    reject(error);
+                });
             }
         });
     }
@@ -161,7 +166,6 @@ class LedgerClient {
                 skipPersistence: false,
                 isEnrolled: true
             };
-            this.loggedUser = await this.ledgerClient.getUserContext(userConfig.name)
             if (!this.loggedUser)
                 this.loggedUser = await this.ledgerClient.createUser(userOptions);
             await this.instantiateChannel(organization);
