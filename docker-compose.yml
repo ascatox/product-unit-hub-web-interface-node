@@ -3,6 +3,8 @@ services:
   product-unit-hub-web-interface-node:
     container_name: product-unit-hub-web-interface-node
     image: faredge/product-unit-hub-web-interface-node
+    environment:
+      - LOGGING_LEVEL = error
     ports:
       - 3000:3000
     volumes:
