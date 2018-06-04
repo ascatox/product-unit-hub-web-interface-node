@@ -2,7 +2,7 @@ import utils = require("./Utils");
 import Client = require('fabric-client');
 import FabricCAServices = require('fabric-ca-client');
 import * as path from 'path';
-const jsonFile = require("../resources/config-fabric-network.json");
+const jsonFile = require("../../resources/config-fabric-network.json");
 import { logger } from "../Logger";
 
 class LedgerClient {
