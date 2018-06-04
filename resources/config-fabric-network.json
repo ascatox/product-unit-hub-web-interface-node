@@ -6,9 +6,9 @@
   "cryptoconfigdir": "/Users/ascatox/Desktop/crypto-config",
   "tls": false,
   "chaincode": {
-    "path": "product-unit-hub-chaincode",
-    "name": "productunithub",
-    "version": "3.3",
+    "path": "analytics-chaincode",
+    "name": "analytics-chaincode",
+    "version": "2.3",
     "lang": "NODE"
   },
   "organizations": [

@@ -1,7 +1,7 @@
 import * as supertest from 'supertest'
-import app from './ProductUnitWebInterface'
+import app from './SmartBayWebInterface'
 
-describe('ProductUnitWebInterface', () => {
+describe('SmartBayWebInterface', () => {
   it('works', () =>
     supertest(app)
       .get('/')
