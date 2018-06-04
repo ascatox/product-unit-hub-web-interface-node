@@ -1,6 +1,6 @@
-import * as express from 'express'
+import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { LedgerClient } from './LedgerClient';
+import { LedgerClient } from './ledger/LedgerClient';
 import { logger } from "./Logger";
 
 class ProductUnitWebInterface {
