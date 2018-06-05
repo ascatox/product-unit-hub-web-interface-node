@@ -8,7 +8,7 @@
   "chaincode": {
     "path": "analytics-chaincode",
     "name": "analytics-chaincode",
-    "version": "2.3",
+    "version": "1.1",
     "lang": "NODE"
   },
   "organizations": [
