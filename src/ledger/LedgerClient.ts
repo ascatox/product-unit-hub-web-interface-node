@@ -129,7 +129,9 @@ class LedgerClient {
             for (const peerConf of organization.peers) {
                 const peer = this.ledgerClient.newPeer(peerConf.requestURL, null);
                 this.channel.addPeer(peer);
-                eh.setPeerAddr(peerConf.eventURL, null);
+                if (peerConf.eventURL) {
+                    eh.setPeerAddr(peerConf.eventURL, null);
+                }
             }
             for (const ordererConf of organization.orderers) {
                 const peer = this.ledgerClient.newOrderer(ordererConf.url, null);

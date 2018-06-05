@@ -1,10 +1,10 @@
-import smartBayWebInterface from './rest/SmartBayWebInterface'
+import productUnitWebInterface from './ProductUnitWebInterface'
 import winston from 'winston'
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 
-smartBayWebInterface.listen(port, (err) => {
+productUnitWebInterface.listen(port, (err) => {
   if (err) {
     return console.log(err)
   }

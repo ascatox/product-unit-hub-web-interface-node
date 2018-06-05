@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package.json /usr/src/app/
+RUN npm config set https-proxy http://ascatolo:As122133@proxy.eng.it:3128
 
 RUN npm install
 
