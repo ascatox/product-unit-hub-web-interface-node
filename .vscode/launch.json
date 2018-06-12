@@ -6,13 +6,23 @@
     "configurations": [
         {
             "type": "node",
+            "request": "attach",
+            "name": "Attach to Remote",
+            "address": "167.99.89.178",
+            "port": 9229,
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/opt/hyperledger/clients/product-unit-hub-web-interface-node"
+        },
+        {
+            "type": "node",
             "request": "launch",
             "name": "Avvia programma",
             "program": "${workspaceFolder}/dist/server.js",
-            "preLaunchTask": "tsc: build - tsconfig.json",
+            "preLaunchTask": "ty-compile",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ]
-        }
+        },
+        
     ]
 }
