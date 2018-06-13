@@ -24,7 +24,7 @@
     "body-parser": "1.18.3",
     "moment": "2.22.1",
     "node-schedule": "1.2.0",
-    "node-ledger-client": "1.0.14"
+    "node-ledger-client": "*"
   },
   "devDependencies": {
     "@types/mocha": "2.2.41",
